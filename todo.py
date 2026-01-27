@@ -1,0 +1,107 @@
+class Todo:
+    IS_DONE = 'X'
+    IS_UNDONE = ' '
+    def __init__(self, title):
+        self._title = title 
+        self._flag = f'[{Todo.IS_UNDONE}]' 
+        self._done = False 
+        
+    @property 
+    def title(self):
+        return self._title 
+    
+    @property 
+    def done(self):
+        return self._done 
+    
+    @done.setter 
+    def done(self, done):
+        self._done = done 
+    
+    def __eq__(self, other):
+        if not isinstance(other, Todo):
+            return NotImplemented
+        
+        return self.title == other.title and self.done == other.done 
+    
+    def __str__(self):
+        marker = Todo.IS_DONE if self.done else Todo.IS_UNDONE
+        return f'[{marker}] {self.title}'
+    
+class TodoList:
+    def __init__(self, title):
+        self._title = title 
+        self._todos = []
+        
+    @property 
+    def title(self):
+        return self._title  
+    
+    def add(self, todo):
+        if not isinstance(todo, Todo):
+            raise TypeError('Can only add Todo object to Todo List')
+        self._todos.append(todo)
+        
+    def __str__(self):
+        output_lines = ["---- Today's Todos -----"]
+        output_lines += [str(todo) for todo in self._todos]
+        return '\n'.join(output_lines)
+    
+    def __len__(self):
+        return len(self._todos)
+
+# Code omitted for brevity.
+
+empty_todo_list = TodoList('Nothing Doing')
+
+def setup():
+    todo1 = Todo('Buy milk')
+    todo2 = Todo('Clean room')
+    todo3 = Todo('Go to gym')
+
+    todo2.done = True
+
+    todo_list = TodoList("Today's Todos")
+    todo_list.add(todo1)
+    todo_list.add(todo2)
+    todo_list.add(todo3)
+
+    return todo_list
+
+# def step_1():
+#     print('--------------------------------- Step 1')
+#     todo_list = setup()
+
+#     # setup() uses `todo_list.add` to add 3 todos
+
+#     try:
+#         todo_list.add(1)
+#     except TypeError:
+#         print('TypeError detected')    # TypeError detected
+
+#     for todo in todo_list._todos:
+#         print(todo)
+
+# step_1()
+
+# def step_2():
+#     print('--------------------------------- Step 2')
+#     todo_list = setup()
+
+#     print(todo_list)
+#     # ---- Today's Todos -----
+#     # [ ] Buy milk
+#     # [X] Clean room
+#     # [ ] Go to gym
+
+# step_2()
+    
+def step_3():
+    print('--------------------------------- Step 3')
+    todo_list = setup()
+
+    print(len(todo_list))              # 3
+    print(len(empty_todo_list))        # 0
+
+step_3()
+    
